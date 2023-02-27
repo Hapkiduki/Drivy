@@ -30,6 +30,20 @@ class MainViewModel : ViewModel() {
         )
     }
 
+    fun listFiles() {
+        if (this::driveInstance.isInitialized) {
+            viewModelScope.launch(Dispatchers.IO) {
+                try {
+                    val files = driveInstance.Files().list().execute()
+                    Log.i("Archivos", "getFiles: Cantidad ${files.size}")
+                } catch (e: Exception) {
+                    Log.i("Archivos", "getFiles: Error $e")
+                }
+
+            }
+        }
+    }
+
 
     fun createFolder(folderName: String) {
         if (this::driveInstance.isInitialized) {
@@ -47,7 +61,8 @@ class MainViewModel : ViewModel() {
                 gFolder.mimeType = "application/vnd.google-apps.folder"
 
                 try {
-                    val newFolderId = driveInstance.Files().create(gFolder).setFields("id").execute()
+                    val newFolderId =
+                        driveInstance.Files().create(gFolder).setFields("id").execute()
                     Log.i("Archivos", "getFiles: $newFolderId")
                 } catch (e: Exception) {
                     Log.i("Archivos", "getFiles: Error $e")

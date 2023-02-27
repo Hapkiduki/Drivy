@@ -58,6 +58,9 @@ class MainActivity : ComponentActivity() {
                         onDriveInstanced = viewModel::instanceDrive,
                         authenticated = authenticated,
                         user = user,
+                        onListFilesButtonClick = {
+                            viewModel.listFiles()
+                        },
                         onFolderButtonClick = {
                             viewModel.createFolder("Prueba Drive")
                         },
@@ -81,6 +84,7 @@ fun Greeting(
     authenticated: Boolean,
     user: User?,
     onFolderButtonClick: () -> Unit,
+    onListFilesButtonClick: () -> Unit,
     onNewImageUploaded: ImageHandler,
 ) {
     val context = LocalContext.current
@@ -154,6 +158,9 @@ fun Greeting(
 
             Text(text = "Select Image", fontSize = 20.sp)
             Spacer(modifier = Modifier.height(10.dp))
+            Button(onClick = onListFilesButtonClick) {
+                Text(text = "List Files")
+            }
             Button(onClick = onFolderButtonClick) {
                 Text(text = "New Folder")
             }
